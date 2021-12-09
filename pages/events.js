@@ -1,13 +1,16 @@
+import React from 'react';
 import Head from 'next/head';
 
-export default function Home() {
+function Events() {
   return (
     <div>
       <Head>
-        <title>Awair Events</title>
+        <title>Events</title>
         <meta name='keywords' content='events, work-life balance' />
       </Head>
-      <h1>Welcome to Awair Events</h1>
+      <h1>Our Events</h1>
     </div>
   );
 }
+
+export default Events;

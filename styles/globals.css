@@ -13,4 +13,22 @@ a {
 
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+.error {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 150px);
+  width: 300px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  font-size: 22px;
 }

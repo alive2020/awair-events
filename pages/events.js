@@ -9,6 +9,7 @@ function Events({ events, error, handle }) {
   const [eve, setEve] = useState(events);
   const [tokens, setTokens] = useState([events?.next_page_token]);
   const [page, setPage] = useState(0);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -46,6 +47,11 @@ function Events({ events, error, handle }) {
         console.log('inside client error', e);
       });
   };
+
+  const openPopup = (e) => {
+    e.preventDefault();
+    setIsPopupOpen(!isPopupOpen);
+  };
   return (
     <div className={eventStyles.container}>
       <Head>
@@ -58,10 +64,12 @@ function Events({ events, error, handle }) {
           <p>Please reload this page!</p>
         </div>
       )} */}
-      <button>New Event</button>
-      <NewEvent
-        events={(val) => setEve({ ...eve, events: [...eve.events, val] })}
-      />
+      <button className={eventStyles.newEventBtn} onClick={openPopup}>{isPopupOpen ? 'Close' : 'New Event'}</button>
+      {isPopupOpen && (
+        <NewEvent setIsPopupOpen={setIsPopupOpen}
+          events={(val) => setEve({ ...eve, events: [...eve.events, val] })}
+        />
+      )}
       <h1 className={eventStyles.eventsTitle}>Our Events</h1>
       <EventsList
         events={eve?.events}
@@ -74,11 +82,11 @@ function Events({ events, error, handle }) {
       />
       <div className={eventStyles.btns}>
         {page != 0 && (
-          <button onClick={() => handleNexPage('prev')}>prev page</button>
+          <button onClick={() => handleNexPage('prev')}>Prev Page</button>
         )}
-        <button onClick={() => handleNexPage('next')}>next page</button>
+        <button onClick={() => handleNexPage('next')}>Next Page</button>
       </div>
-      {err && <p style={{ color: 'red' }}>{err?.error} || Please try again</p>}
+      {err && <p className={eventStyles.error}>{err?.error}. Please try again!</p>}
     </div>
   );
 }

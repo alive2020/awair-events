@@ -58,12 +58,6 @@ function Events({ events, error, handle }) {
         <title>Events</title>
         <meta name='keywords' content='events, work-life balance' />
       </Head>
-      {/* {err && (
-        <div className='error'>
-          <p>{err?.error}</p>
-          <p>Please reload this page!</p>
-        </div>
-      )} */}
       <button className={eventStyles.newEventBtn} onClick={openPopup}>{isPopupOpen ? 'Close' : 'New Event'}</button>
       {isPopupOpen && (
         <NewEvent setIsPopupOpen={setIsPopupOpen}

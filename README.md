@@ -1,3 +1,18 @@
+
+### Used:
+- Next.js 
+- Css
+- React datepicker
+
+#### Home, Events pages
+- Home: landing page;
+- Events: List of Events, New Event button opens Create New Event form 
+
+#### Delay reason for submission
+- server issue delay
+- using pure css styling
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

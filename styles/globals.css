@@ -16,6 +16,10 @@ a {
   margin: 0;
 }
 
+.homePage {
+  color: #fff;
+}
+
 .error {
   position: absolute;
   top: calc(50% - 50px);

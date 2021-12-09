@@ -1,4 +1,40 @@
 .container {
+  width: 90%;
+  min-height: 250px;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 15px;
   background-color: #fff;
   background-image: none;
+}
+
+.eventsTitle {
+  padding: 10px 0;
+}
+
+.event {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.event > span {
+  font-size: 10px;
+}
+
+.btns {
+  margin: 20px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+
+  justify-content: space-around;
+}
+.btns > button {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
 }

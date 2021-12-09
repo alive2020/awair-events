@@ -15,7 +15,7 @@ function Events({ events, error, handle }) {
       // setTimeout(() => console.log('asdasdas'), 1000);
     }
   }, []);
-  
+
   const handleNexPage = async (type) => {
     const url =
       page === 1 && type === 'prev'
@@ -58,9 +58,9 @@ function Events({ events, error, handle }) {
           <p>Please reload this page!</p>
         </div>
       )} */}
-      <h1>Our Events</h1>
+      <h1 className={eventStyles.eventsTitle}>Our Events</h1>
       <EventsList events={eve?.events} />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className={eventStyles.btns}>
         {page != 0 && (
           <button onClick={() => handleNexPage('prev')}>prev page</button>
         )}

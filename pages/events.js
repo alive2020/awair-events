@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import NewEvent from '../components/NewEvent';
 import EventsList from '../components/EventsList';
 import eventStyles from '../styles/Events.module.css';
 
@@ -45,7 +46,6 @@ function Events({ events, error, handle }) {
         console.log('inside client error', e);
       });
   };
-  console.log(eve);
   return (
     <div className={eventStyles.container}>
       <Head>
@@ -58,8 +58,20 @@ function Events({ events, error, handle }) {
           <p>Please reload this page!</p>
         </div>
       )} */}
+      <button>New Event</button>
+      <NewEvent
+        events={(val) => setEve({ ...eve, events: [...eve.events, val] })}
+      />
       <h1 className={eventStyles.eventsTitle}>Our Events</h1>
-      <EventsList events={eve?.events} />
+      <EventsList
+        events={eve?.events}
+        handleDelete={(val) =>
+          setEve({
+            ...eve,
+            events: eve.events.filter((item) => item.title !== val),
+          })
+        }
+      />
       <div className={eventStyles.btns}>
         {page != 0 && (
           <button onClick={() => handleNexPage('prev')}>prev page</button>

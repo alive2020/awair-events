@@ -1,18 +1,20 @@
 import React from 'react';
 import eventStyles from '../styles/Events.module.css';
 
-function EventsList({ events }) {
-  // console.log(events)
+function EventsList({ events, handleDelete }) {
+  console.log(events);
   return (
-    <div >
+    <div>
       {events &&
         events.map((event, index) => (
-          // <div>
-          <h3 className={eventStyles.event} key={`${event.title}+ ${index}`}>
-            {event.title}
+          <div>
+            <h3 className={eventStyles.event} key={`${event.title}+ ${index}`}>
+              {event.title}
+            </h3>
             <span>{`Start: ${event.start}`}</span>
             <span>{`End: ${event.end}`}</span>
-          </h3>
+            <button onClick={() => handleDelete(event.title)}>delete</button>
+          </div>
         ))}
     </div>
   );

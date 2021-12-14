@@ -1,3 +1,7 @@
+### Simple Web page (SPA) that can handle Events management from a remote server following functionalities
+● List All Events with pagination (fetch from server below)
+● Create an Event - (no server endpoint integration)
+● Delete an Event - (no server endpoint integration)
 
 ### Used:
 - Next.js 

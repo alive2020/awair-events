@@ -3,12 +3,11 @@ import Head from 'next/head';
 import NewEvent from '../components/NewEvent';
 import EventsList from '../components/EventsList';
 import eventStyles from '../styles/Events.module.css';
-import { fetchTodos, getAccessToken } from '../redux/todo'
+import { fetchTodos, getEvents, getAccessToken , getErrorMessage} from '../redux/todo'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {getEvents} from '../redux/todo';
 
-function Events({ events, next_page_token, dispatch}) {
+function Events({ events, next_page_token, error, dispatch}) {
   console.log('eve', events)
   // const [err, setErr] = useState(error);
   // const [eve, setEve] = useState(events);
@@ -40,9 +39,9 @@ function Events({ events, next_page_token, dispatch}) {
           }`;
 
     console.log('token', tokens)
-    dispatch(fetchTodos);
-    setTokens([...tokens, next_page_token]);
-    setPage(type === 'prev' ? page - 1 : page + 1);
+    // dispatch(fetchTodos);
+    // setTokens([...tokens, next_page_token]);
+    // setPage(type === 'prev' ? page - 1 : page + 1);
 
     // await fetch(url)
     //   .then(async (res) => {
@@ -101,7 +100,7 @@ function Events({ events, next_page_token, dispatch}) {
         )}
         <button onClick={() => handleNexPage('next')}>Next Page</button>
       </div>
-      {/* {err && <p className={eventStyles.error}>{err?.error}. Please try again!</p>} */}
+      {error && <p className={eventStyles.error}>{error}. Please try again!</p>}
     </div>
   );
 }
@@ -110,17 +109,21 @@ function Events({ events, next_page_token, dispatch}) {
 
 Events.propTypes = { 
   dispatch: PropTypes.func.isRequired, 
-  events: PropTypes.array,
-  next_page_token: PropTypes.string
+  events: PropTypes.array.isRequired,
+  next_page_token: PropTypes.string,
+  error: PropTypes.string
 };
 
 const mapStateToProps = state => {
   return {
     events: getEvents(state),
-    next_page_token: getAccessToken(state)
+    next_page_token: getAccessToken(state),
+    error: getErrorMessage(state)
   };
 };
 
+
+// from where state comes 
 
 export default connect(mapStateToProps)(Events);
 

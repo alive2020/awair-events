@@ -1,15 +1,5 @@
-// import { fetchTodosReducer } from "./reducer";
 import { combineReducers } from 'redux';
 
-
-// const addTodo  = (title, startDate, endDate) => {
-//     return {
-//     type: ADD_TODO,
-//     title: title,
-//     start: startDate,
-//     end: endDate,
-//     }
-// }
 
 const initialState = {
     events: [],
@@ -18,8 +8,9 @@ const initialState = {
     next_page_token: []
 }
 
-export const getEvents = ( initialState ) => initialState.fetchTodosReducer.events;
-export const getAccessToken = (initialState) => initialState.fetchTodosReducer.next_page_token;
+export const getEvents = ( initialState ) => initialState.rootReducer.events;
+export const getAccessToken = (initialState) => initialState.rootReducer.next_page_token;
+export const getErrorMessage = (initialState) => initialState.rootReducer.error;
 
 export const FETCH_TODOS_BEGIN = 'FETCH_TODOS_BEGIN';
 export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
@@ -36,11 +27,16 @@ export const fetchTodosSuccess = data => ({
 
 export const fetchTodosFailure = error => ({
     type: FETCH_TODOS_FAILURE,
-    payload: {error}
+    payload: error
 })
 
-export const fetchTodosReducer = (state = initialState, action) => {
-    console.log(action)
+// export const fetchTodosFailure = error => ({
+//     type: FETCH_TODOS_FAILURE,
+//     error
+// })
+
+export const rootReducer = (state = initialState, action) => {
+    console.log('action in reducer',action)
     switch(action.type) {
         case FETCH_TODOS_BEGIN:
             return {
@@ -62,6 +58,7 @@ export const fetchTodosReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload.error,
+                // error: action.error,
                 events: []
             };
         case ADD_TODO:
@@ -129,7 +126,7 @@ export const addTodo = (todo) => {
 }
 
 const reducers = {
-    fetchTodosReducer,
+    rootReducer,
     // addTodoReducer
 }
 

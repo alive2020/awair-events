@@ -6,7 +6,7 @@ import {addTodo} from '../redux/todo';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-function NewEvent({ events, setIsPopupOpen, dispatch }) {
+function NewEvent({setIsPopupOpen, dispatch }) {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -18,7 +18,6 @@ function NewEvent({ events, setIsPopupOpen, dispatch }) {
       end: endDate,
     };
     dispatch(addTodo(body))
-    // events(body);
 
     setTitle('');
     setStartDate('');

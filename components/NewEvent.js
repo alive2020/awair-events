@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import eventStyles from '../styles/Events.module.css';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {addTodo} from '../redux/todo';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function NewEvent({ events, setIsPopupOpen }) {
+function NewEvent({ events, setIsPopupOpen, dispatch }) {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -14,7 +17,8 @@ function NewEvent({ events, setIsPopupOpen }) {
       start: startDate,
       end: endDate,
     };
-    events(body);
+    dispatch(addTodo(body))
+    // events(body);
 
     setTitle('');
     setStartDate('');
@@ -49,4 +53,6 @@ function NewEvent({ events, setIsPopupOpen }) {
   );
 }
 
-export default NewEvent;
+NewEvent.propTypes = {dispatch: PropTypes.func.isRequired, }
+
+export default connect()(NewEvent);

@@ -3,20 +3,33 @@ import Head from 'next/head';
 import NewEvent from '../components/NewEvent';
 import EventsList from '../components/EventsList';
 import eventStyles from '../styles/Events.module.css';
+import { fetchTodos, getAccessToken } from '../redux/todo'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {getEvents} from '../redux/todo';
 
-function Events({ events, error, handle }) {
-  const [err, setErr] = useState(error);
-  const [eve, setEve] = useState(events);
-  const [tokens, setTokens] = useState([events?.next_page_token]);
+function Events({ events, next_page_token, dispatch}) {
+  console.log('eve', events)
+  // const [err, setErr] = useState(error);
+  // const [eve, setEve] = useState(events);
+  // const [tokens, setTokens] = useState([events?.next_page_token]);
+  const [tokens, setTokens] = useState([next_page_token]);
+
   const [page, setPage] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  // console.log('getstatic data', events)
+
+  // console.log('getstatic token', tokens)
+
+
   useEffect(() => {
-    if (error) {
-      setTimeout(() => setErr(null), 1000);
+    dispatch(fetchTodos);
+    // if () {
+    //   setTimeout(() => setErr(null), 1000);
       // setTimeout(() => console.log('asdasdas'), 1000);
-    }
-  }, []);
+    // }
+  }, [dispatch]);
 
   const handleNexPage = async (type) => {
     const url =
@@ -25,33 +38,40 @@ function Events({ events, error, handle }) {
         : `https://mobile-app-interview.awair.is/events?next_page_token=${
             type === 'next' ? tokens[page] : tokens[page - 2]
           }`;
-    await fetch(url)
-      .then(async (res) => {
-        if (res.status === 200) {
-          setErr(null);
-          const response = await res.json();
-          setEve(response);
-          if (
-            tokens.filter((item) => item === response.next_page_token)
-              .length === 0
-          )
-            setTokens([...tokens, response.next_page_token]);
-          setPage(type === 'prev' ? page - 1 : page + 1);
-        } else {
-          setErr(await res.json());
-        }
-      })
-      .catch((e) => {
-        setEve([]);
 
-        console.log('inside client error', e);
-      });
+    console.log('token', tokens)
+    dispatch(fetchTodos);
+    setTokens([...tokens, next_page_token]);
+    setPage(type === 'prev' ? page - 1 : page + 1);
+
+    // await fetch(url)
+    //   .then(async (res) => {
+    //     if (res.status === 200) {
+    //       setErr(null);
+    //       const response = await res.json();
+    //       setEve(response);
+    //       if (
+    //         tokens.filter((item) => item === response.next_page_token)
+    //           .length === 0
+    //       )
+    //         setTokens([...tokens, response.next_page_token]);
+    //       setPage(type === 'prev' ? page - 1 : page + 1);
+    //     } else {
+    //       setErr(await res.json());
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     setEve([]);
+
+    //     console.log('inside client error', e);
+    //   });
   };
 
   const openPopup = (e) => {
     e.preventDefault();
     setIsPopupOpen(!isPopupOpen);
   };
+
   return (
     <div className={eventStyles.container}>
       <Head>
@@ -61,12 +81,13 @@ function Events({ events, error, handle }) {
       <button className={eventStyles.newEventBtn} onClick={openPopup}>{isPopupOpen ? 'Close' : 'New Event'}</button>
       {isPopupOpen && (
         <NewEvent setIsPopupOpen={setIsPopupOpen}
-          events={(val) => setEve({ ...eve, events: [...eve.events, val] })}
+          // events={(val) => setEve({ ...eve, events: [...eve.events, val] })}
+          
         />
       )}
       <h1 className={eventStyles.eventsTitle}>Our Events</h1>
       <EventsList
-        events={eve?.events}
+        events={events}
         handleDelete={(val) =>
           setEve({
             ...eve,
@@ -80,31 +101,51 @@ function Events({ events, error, handle }) {
         )}
         <button onClick={() => handleNexPage('next')}>Next Page</button>
       </div>
-      {err && <p className={eventStyles.error}>{err?.error}. Please try again!</p>}
+      {/* {err && <p className={eventStyles.error}>{err?.error}. Please try again!</p>} */}
     </div>
   );
 }
 
-export const getStaticProps = async () => {
-  let events = [];
-  let error = null;
 
-  await fetch('https://mobile-app-interview.awair.is/events')
-    .then(async (res) => {
-      if (res.status === 200) {
-        events = await res.json();
-      } else {
-        error = await res.json();
-      }
-    })
-    .catch((e) => console.log(e, 'error'));
 
+Events.propTypes = { 
+  dispatch: PropTypes.func.isRequired, 
+  events: PropTypes.array,
+  next_page_token: PropTypes.string
+};
+
+const mapStateToProps = state => {
   return {
-    props: {
-      events,
-      error,
-    },
+    events: getEvents(state),
+    next_page_token: getAccessToken(state)
   };
 };
 
-export default Events;
+
+export default connect(mapStateToProps)(Events);
+
+
+
+
+// export const getStaticProps = async () => {
+//   let events = [];
+//   let error = null;
+//   // dispatch(fetchTodos);
+//   await fetch('https://mobile-app-interview.awair.is/events')
+//     .then(async (res) => {
+//       if (res.status === 200) {
+//         events = await res.json();
+//       } else {
+//         error = await res.json();
+//       }
+//     })
+//     .catch((e) => console.log(e, 'error'));
+
+
+//   return {
+//     props: {
+//       events,
+//       error,
+//     },
+//   };
+// };

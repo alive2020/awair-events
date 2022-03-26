@@ -73,7 +73,7 @@ export const rootReducer = (state = initialState, action) => {
 
 }
 
-
+//why we pass dispatch here as a param?
 export const fetchTodos = async (dispatch) =>{
     try{
         dispatch(fetchTodosBegin())
@@ -82,15 +82,17 @@ export const fetchTodos = async (dispatch) =>{
             if (res.status === 200) {
               const data = await res.json();
               dispatch(fetchTodosSuccess(data))
-            } else {
+            } 
+            else {
               dispatch(fetchTodosFailure({error:'error'}))
             }
           })
     }
     catch(error){
-        dispatch(fetchTodosFailure('in catch', error))
+        dispatch(fetchTodosFailure( 'in catch', error))
     }
 }
+
 
 
 export const ADD_TODO = "ADD_TODO"

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function Events({ events, next_page_token, error, dispatch}) {
-  console.log('eve', events)
+  console.log('events from store', events)
   // const [err, setErr] = useState(error);
   // const [eve, setEve] = useState(events);
   // const [tokens, setTokens] = useState([events?.next_page_token]);
